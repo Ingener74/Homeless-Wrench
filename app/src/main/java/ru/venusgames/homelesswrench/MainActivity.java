@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         public void onMapReady(GoogleMap googleMap) {
             MapsInitializer.initialize(getApplicationContext());
             this.googleMap = googleMap;
-
             setLocation((MyLocation) mapView.getTag());
         }
 
