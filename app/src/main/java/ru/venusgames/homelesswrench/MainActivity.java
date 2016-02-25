@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
                     holder.mapView = (MapView) view.findViewById(R.id.map_list_item_map);
                     holder.textView = (TextView) view.findViewById(R.id.map_list_item_name);
 
+                    holder.mapView.setTag(getItem(position));
+
                     holder.init();
 
                     view.setTag(holder);
@@ -144,7 +147,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void setLocation(MyLocation location) {
-            if (location == null || googleMap == null) return;
+            if (location == null){
+                Log.d(getClass().getName(), "location is null");
+                return;
+            }
+            if(googleMap == null){
+                Log.d(getClass().getName(), "google map is null");
+                return;
+            }
+
+            Log.d(getClass().getName(), "set location " + location.toString());
+
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(location.getLatLng()));
             googleMap.addMarker(new MarkerOptions().position(location.getLatLng()).title(location.getName()));
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
