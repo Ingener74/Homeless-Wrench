@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<MyLocation> locations = new ArrayList<>();
         locations.add(new MyLocation("Home", new LatLng(54.693546, 63.854459)));
         locations.add(new MyLocation("Apartment", new LatLng(55.205374, 61.289694)));
+        locations.add(new MyLocation("Moscow apartment", new LatLng(55.648848, 37.388092)));
 
         listView.setAdapter(new BaseAdapter() {
             @Override
@@ -146,20 +150,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void setLocation(MyLocation location) {
-            if (location == null){
-                Log.d(getClass().getName(), "location is null");
-                return;
-            }
-            if(googleMap == null){
-                Log.d(getClass().getName(), "google map is null");
-                return;
-            }
-
-            Log.d(getClass().getName(), "set location " + location.toString());
-
+            if (location == null || googleMap == null) return;
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(location.getLatLng()));
             googleMap.addMarker(new MarkerOptions().position(location.getLatLng()).title(location.getName()));
-            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
     }
 }
